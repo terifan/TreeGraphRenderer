@@ -1,4 +1,4 @@
-package org.terifan.treegraph;
+package demo;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,13 +10,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 
-public class TreeFrame
+class DemoFrame
 {
 	private JFrame mFrame;
 	private JPanel mContainer;
 
 
-	public TreeFrame()
+	public DemoFrame()
 	{
 		mContainer = new JPanel(new VerticalFlowLayout());
 		JScrollPane scrollPane = new JScrollPane(mContainer);

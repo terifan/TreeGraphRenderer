@@ -1,4 +1,8 @@
-package org.terifan.treegraph;
+package demo;
+
+import org.terifan.treegraph.HorizontalLayout;
+import org.terifan.treegraph.TreeRenderer;
+import org.terifan.treegraph.VerticalLayout;
 
 
 public class Test
@@ -7,7 +11,7 @@ public class Test
 	{
 		try
 		{
-			TreeFrame frame = new TreeFrame();
+			DemoFrame frame = new DemoFrame();
 			frame.add(new TreeRenderer("'Jalapeno:Quality:>'['Dove:>'['Apple:Banana:Circus','Dove:Ear:Female'],'Japanese:>'['Gloves:Head:Internal','Japanese:Knife:Leap'],'Quality:>'['Mango:Nose:Open','Quality:Rupee']]").render(new HorizontalLayout()));
 			frame.add(new TreeRenderer("'Jalapeno:Quality:>'['Dove:>'['Apple:Banana:Circus','Dove:Ear:Female'],'Japanese:>'['Gloves:Head:Internal','Japanese:Knife:Leap'],'Open:Quality:>'['Mango:Nose','Open:Pen','Quality:Rupee']]").render(new VerticalLayout()));
 			frame.add(new TreeRenderer("['a','b','c','d']").render(new HorizontalLayout()));

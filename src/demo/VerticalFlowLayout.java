@@ -1,4 +1,4 @@
-package org.terifan.treegraph;
+package demo;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -7,25 +7,14 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 
 
-public class VerticalFlowLayout implements LayoutManager
+class VerticalFlowLayout implements LayoutManager
 {
-	public final static int CENTER = 0;
-	public final static int RIGHT = 1;
-	public final static int LEFT = 2;
-	public final static int BOTH = 3;
-	public final static int TOP = 1;
-	public final static int BOTTOM = 2;
-
 	int vgap;
-	int alignment;
-	int anchor;
 
 
 	public VerticalFlowLayout()
 	{
-		this.vgap = 5;
-		this.alignment = BOTH;
-		this.anchor = TOP;
+		vgap = 5;
 	}
 
 
@@ -57,6 +46,7 @@ public class VerticalFlowLayout implements LayoutManager
 	}
 
 
+	@Override
 	public void layoutContainer(Container parent)
 	{
 		Insets insets = parent.getInsets();
@@ -70,40 +60,13 @@ public class VerticalFlowLayout implements LayoutManager
 				Dimension d = parent.getComponent(i).getPreferredSize();
 				y += d.height + vgap;
 			}
-			y -= vgap;
-			if (anchor == TOP)
-			{
-				y = insets.top;
-			}
-			else
-			{
-				if (anchor == CENTER)
-				{
-					y = (pd.height - y) / 2;
-				}
-				else
-				{
-					y = pd.height - y - insets.bottom;
-				}
-			}
+			y = insets.top;
 			for (int i = 0; i < n; i++)
 			{
 				Component c = parent.getComponent(i);
 				Dimension d = c.getPreferredSize();
 				int x = insets.left;
-				int wid = d.width;
-				if (alignment == CENTER)
-				{
-					x = (pd.width - d.width) / 2;
-				}
-				else if (alignment == RIGHT)
-				{
-					x = pd.width - d.width - insets.right;
-				}
-				else if (alignment == BOTH)
-				{
-					wid = pd.width - insets.left - insets.right;
-				}
+				int wid = pd.width - insets.left - insets.right;
 				c.setBounds(x, y, wid, d.height);
 				y += d.height + vgap;
 			}
@@ -111,23 +74,27 @@ public class VerticalFlowLayout implements LayoutManager
 	}
 
 
+	@Override
 	public Dimension minimumLayoutSize(Container parent)
 	{
 		return layoutSize(parent, false);
 	}
 
 
+	@Override
 	public Dimension preferredLayoutSize(Container parent)
 	{
 		return layoutSize(parent, false);
 	}
 
 
+	@Override
 	public void addLayoutComponent(String name, Component comp)
 	{
 	}
 
 
+	@Override
 	public void removeLayoutComponent(Component comp)
 	{
 	}
