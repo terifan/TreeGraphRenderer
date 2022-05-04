@@ -13,6 +13,7 @@ public class Test
 		try
 		{
 			VerticalImageFrame frame = new VerticalImageFrame();
+			frame.add(new TreeRenderer("'aa:bb:cc'['dd:ee','ff:gg','hh:ii'['jj:kk','ll:mm']]").render(new VerticalLayout()));
 			frame.add(new TreeRenderer("'Jalapeno:Quality:>'['Dove:>'['Apple:Banana:Circus','Dove:Ear:Female'],'Japanese:>'['Gloves:Head:Internal','Japanese:Knife:Leap'],'Quality:>'['Mango:Nose:Open','Quality:Rupee']]").render(new HorizontalLayout()));
 			frame.add(new TreeRenderer("'Jalapeno:Quality:>'['Dove:>'['Apple:Banana:Circus','Dove:Ear:Female'],'Japanese:>'['Gloves:Head:Internal','Japanese:Knife:Leap'],'Open:Quality:>'['Mango:Nose','Open:Pen','Quality:Rupee']]").render(new VerticalLayout()));
 			frame.add(new TreeRenderer("['a','b','c','d']").render(new HorizontalLayout()));
