@@ -1,4 +1,4 @@
-package demo;
+package org.terifan.treegraph.util;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -7,7 +7,7 @@ import java.awt.Insets;
 import java.awt.LayoutManager;
 
 
-class VerticalFlowLayout implements LayoutManager
+public class VerticalFlowLayout implements LayoutManager
 {
 	int vgap;
 
