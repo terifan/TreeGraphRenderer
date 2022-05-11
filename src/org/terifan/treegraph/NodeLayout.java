@@ -28,11 +28,15 @@ public abstract class NodeLayout
 
 	void renderHorizontalBox(Graphics2D aGraphics, int aX, int aY, Node aNode)
 	{
-		aGraphics.setColor(Color.BLACK);
+		aGraphics.setColor(aNode.mColors[1] != null ? aNode.mColors[1] : Color.WHITE);
+		aGraphics.fillRect(aX, aY, aNode.mLayout.mWidth - 1, aNode.mLayout.mHeight - 1);
+
+		aGraphics.setColor(aNode.mColors[0] != null ? aNode.mColors[0] : Color.BLACK);
 		aGraphics.drawRect(aX, aY, aNode.mLayout.mWidth - 1, aNode.mLayout.mHeight - 1);
+
 		for (int i = 0, tx = aX + (aNode.mLayout.mWidth - aNode.mLayout.mTextWidth) / 2; i < aNode.mText.length; i++)
 		{
-			aGraphics.setColor(Color.BLACK);
+			aGraphics.setColor(aNode.mColors[2] != null ? aNode.mColors[2] : Color.BLACK);
 			if (aNode.mText[i].equals("*"))
 			{
 				aGraphics.fillOval(tx, aY + (int)(aNode.mLayout.mHeight + LM.getHeight()) / 2, 5, 5);
@@ -53,11 +57,15 @@ public abstract class NodeLayout
 
 	void renderVerticalBox(Graphics2D aGraphics, int aX, int aY, Node aNode)
 	{
-		aGraphics.setColor(Color.BLACK);
+		aGraphics.setColor(aNode.mColors[1] != null ? aNode.mColors[1] : Color.WHITE);
+		aGraphics.fillRect(aX, aY, aNode.mLayout.mWidth - 1, aNode.mLayout.mHeight - 1);
+
+		aGraphics.setColor(aNode.mColors[0] != null ? aNode.mColors[0] : Color.BLACK);
 		aGraphics.drawRect(aX, aY, aNode.mLayout.mWidth - 1, aNode.mLayout.mHeight - 1);
+
 		for (int i = 0, ty = aY + (aNode.mLayout.mHeight - aNode.mLayout.mTextHeight) / 2; i < aNode.mText.length; i++)
 		{
-			aGraphics.setColor(Color.BLACK);
+			aGraphics.setColor(aNode.mColors[2] != null ? aNode.mColors[2] : Color.BLACK);
 			if (aNode.mText[i].equals("*"))
 			{
 				aGraphics.fillOval(aX + aNode.mLayout.mWidth / 2 - 2, ty + (int)LM.getHeight() / 2 - 2, 5, 5);

@@ -49,6 +49,20 @@ public class TreeRenderer
 		{
 			node = new Node(readWord(aInput).split(":"));
 
+			for (int i = 0; i < 3; i++)
+			{
+				int c = aInput.read();
+				if (c == '#')
+				{
+					node.mColors[i] = readColor(aInput);
+				}
+				else
+				{
+					aInput.unread(c);
+					break;
+				}
+			}
+
 			int c = aInput.read();
 			if (c == '[')
 			{
@@ -81,6 +95,22 @@ public class TreeRenderer
 		}
 
 		return node;
+	}
+
+
+	private Color readColor(PushbackReader aInput) throws IOException, NumberFormatException
+	{
+		int t = aInput.read();
+		if (t == '#')
+		{
+			aInput.unread(t);
+			return null;
+		}
+
+		int r = 16 * Integer.parseInt("" + (char)t, 16);
+		int g = 16 * Integer.parseInt("" + (char)aInput.read(), 16);
+		int b = 16 * Integer.parseInt("" + (char)aInput.read(), 16);
+		return new Color(r, g, b);
 	}
 
 
