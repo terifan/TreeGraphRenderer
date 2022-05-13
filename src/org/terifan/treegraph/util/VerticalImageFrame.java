@@ -22,6 +22,7 @@ public class VerticalImageFrame
 		JScrollPane scrollPane = new JScrollPane(mContainer);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(100);
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(100);
+
 		mFrame = new JFrame();
 		mFrame.add(scrollPane);
 		mFrame.setSize(1600, 1200);
@@ -43,7 +44,7 @@ public class VerticalImageFrame
 			@Override
 			protected void paintComponent(Graphics aGraphics)
 			{
-				aGraphics.setColor(Color.WHITE);
+				aGraphics.setColor(aImage instanceof TextSlice ? new Color(240,240,240) : Color.WHITE);
 				aGraphics.fillRect(0, 0, getWidth(), getHeight());
 				aGraphics.drawImage(aImage, (getWidth() - aImage.getWidth()) / 2, (getHeight() - aImage.getHeight()) / 2, null);
 			}
