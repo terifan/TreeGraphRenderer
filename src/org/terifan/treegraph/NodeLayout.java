@@ -39,7 +39,7 @@ public abstract class NodeLayout
 			aGraphics.setColor(aNode.mColors[2] != null ? aNode.mColors[2] : Color.BLACK);
 			if (aNode.mText[i].equals("*"))
 			{
-				aGraphics.fillOval(tx, aY + (int)(aNode.mLayout.mHeight + LM.getHeight()) / 2, 5, 5);
+				aGraphics.fillOval(tx, aY + (int)(aNode.mLayout.mHeight + 0*LM.getHeight()) / 2 - 2, 5, 5);
 			}
 			else
 			{
