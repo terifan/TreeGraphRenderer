@@ -42,8 +42,10 @@ public class VerticalLayout extends NodeLayout
 				n.mLayout = new VerticalLayout();
 				n.mLayout.layout(n);
 				w = Math.max(n.mLayout.mBounds.width, w);
+				w = Math.max(measure(n.mLabel).x, w);
 				h += n.mLayout.mBounds.height + CHILD_SPACING;
 			}
+//				w = Math.max(measure(aNode.mLabel).x, w);
 
 			mBounds = new Dimension(w + SIBLING_SPACING + mWidth, Math.max(h, mHeight));
 		}

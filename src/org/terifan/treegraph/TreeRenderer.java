@@ -45,13 +45,26 @@ public class TreeRenderer
 	private Node parse(PushbackReader aInput) throws IOException
 	{
 		Node node;
-		if (aInput.read() == '\'')
+		int c = aInput.read();
+		String label = "";
+		if (c == '{')
+		{
+			for (;;)
+			{
+				c = aInput.read();
+				if (c == '}') break;
+				label += (char)c;
+			}
+			c = aInput.read();
+		}
+		if (c == '\'')
 		{
 			node = new Node(readWord(aInput).split(":"));
+			node.mLabel = label;
 
 			readColors(aInput, node);
 
-			int c = aInput.read();
+			c = aInput.read();
 			if (c == '[')
 			{
 				do
@@ -68,6 +81,8 @@ public class TreeRenderer
 		else
 		{
 			node = new Node();
+			node.mLabel = label;
+
 			ArrayList<String> keys = new ArrayList<>();
 			do
 			{

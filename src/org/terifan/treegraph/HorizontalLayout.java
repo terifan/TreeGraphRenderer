@@ -41,7 +41,7 @@ public class HorizontalLayout extends NodeLayout
 			{
 				n.mLayout = new HorizontalLayout();
 				n.mLayout.layout(n);
-				w += n.mLayout.mBounds.width + CHILD_SPACING;
+				w += Math.max(measure(n.mLabel).x, n.mLayout.mBounds.width) + CHILD_SPACING;
 				h = Math.max(n.mLayout.mBounds.height, h);
 			}
 
@@ -89,6 +89,7 @@ public class HorizontalLayout extends NodeLayout
 				aGraphics.setStroke(LINE_STROKE);
 				aGraphics.drawLine(t + w / 2, aY + mHeight + 5, aX + n.mLayout.mBounds.width / 2, aY + mHeight + SIBLING_SPACING - 5);
 				aGraphics.setStroke(oldStroke);
+				aGraphics.setColor(Color.RED);
 
 				aX += n.mLayout.mBounds.width + CHILD_SPACING;
 				t += s;

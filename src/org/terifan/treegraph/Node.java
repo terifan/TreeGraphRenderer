@@ -10,6 +10,7 @@ public class Node
 	String[] mText;
 	NodeLayout mLayout;
 	Color[] mColors;
+	String mLabel;
 
 
 	public Node(String... aText)
