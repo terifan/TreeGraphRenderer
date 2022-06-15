@@ -25,7 +25,7 @@ public class VerticalImageFrame
 
 		mFrame = new JFrame();
 		mFrame.add(scrollPane);
-		mFrame.setSize(1600, 1200);
+		mFrame.setSize(1600, 1400);
 		mFrame.setLocationRelativeTo(null);
 		mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mFrame.setVisible(true);
