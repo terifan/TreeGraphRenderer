@@ -23,15 +23,17 @@ public class TreeRenderer
 	{
 		2f
 	}, 0);
-	final static Font FONT = new Font("arial", Font.PLAIN, 14);
+	final static Font FONT = new Font("arial", Font.PLAIN, 10);
 	final static FontRenderContext FRC = new FontRenderContext(null, true, false);
 	final static LineMetrics LM = FONT.getLineMetrics("Adgjy", FRC);
 	final static int SIBLING_SPACING = 50;
 	final static int CHILD_SPACING = 10;
-	final static int TEXT_PADDING_X = 15;
-	final static int TEXT_PADDING_Y = 11;
+	final static int TEXT_PADDING_X = 4+0*15;
+	final static int TEXT_PADDING_Y = 4+0*11;
 	final static int FRAME_PADDING = 20;
 	final static boolean COMPACT_LEAFS = true;
+	final static int LABEL_HEIGHT = 10;
+
 
 	private final Node mRoot;
 

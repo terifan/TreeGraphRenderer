@@ -32,6 +32,12 @@ public class VerticalImageFrame
 	}
 
 
+	public JFrame getFrame()
+	{
+		return mFrame;
+	}
+
+
 	public void add(BufferedImage aImage)
 	{
 		mContainer.add(new JPanel()

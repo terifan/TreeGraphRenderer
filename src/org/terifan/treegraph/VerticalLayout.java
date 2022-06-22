@@ -11,6 +11,7 @@ import static org.terifan.treegraph.TreeRenderer.FRC;
 import static org.terifan.treegraph.TreeRenderer.LINE_STROKE;
 import static org.terifan.treegraph.TreeRenderer.SIBLING_SPACING;
 import static org.terifan.treegraph.TreeRenderer.TEXT_PADDING_Y;
+import static org.terifan.treegraph.TreeRenderer.LABEL_HEIGHT;
 
 
 public class VerticalLayout extends NodeLayout
@@ -68,6 +69,12 @@ public class VerticalLayout extends NodeLayout
 			int s = mHeight / aNode.mChildren.size();
 			int h = s;
 			int ch = -CHILD_SPACING;
+
+			if (aNode.mLabel != null && !aNode.mLabel.isEmpty())
+			{
+				t += LABEL_HEIGHT / 2;
+			}
+
 			for (int i = 0; i < aNode.mChildren.size(); i++)
 			{
 				ch += aNode.mChildren.get(i).mLayout.mBounds.height + CHILD_SPACING;
