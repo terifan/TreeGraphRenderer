@@ -7,6 +7,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
+import java.awt.font.LineMetrics;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -39,8 +40,8 @@ public class TextSlice extends BufferedImage
 		g.setFont(FONT);
 		g.setColor(aForeground);
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		FontMetrics m = g.getFontMetrics();
-		g.drawString(aText, 0, (getHeight() + m.getHeight() - m.getDescent()) / 2);
+		LineMetrics m = FONT.getLineMetrics(aText, FRC);
+		g.drawString(aText, 0, (getHeight() + m.getHeight()) / 2 - m.getDescent());
 		g.dispose();
 	}
 
