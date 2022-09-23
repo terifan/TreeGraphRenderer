@@ -32,7 +32,7 @@ public class TreeRenderer
 	final static int TEXT_PADDING_Y = 4+0*11;
 	final static int FRAME_PADDING = 20;
 	final static boolean COMPACT_LEAFS = true;
-	final static int LABEL_HEIGHT = 10;
+	final static int LABEL_HEIGHT = 15;
 
 
 	private final Node mRoot;

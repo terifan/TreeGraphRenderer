@@ -14,6 +14,7 @@ public class VerticalImageFrame
 {
 	private JFrame mFrame;
 	private JPanel mContainer;
+	private int mMargin;
 
 
 	public VerticalImageFrame()
@@ -29,6 +30,13 @@ public class VerticalImageFrame
 		mFrame.setLocationRelativeTo(null);
 		mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mFrame.setVisible(true);
+	}
+
+
+	public VerticalImageFrame setMargin(int aMargin)
+	{
+		mMargin = aMargin;
+		return this;
 	}
 
 
@@ -50,7 +58,7 @@ public class VerticalImageFrame
 			@Override
 			protected void paintComponent(Graphics aGraphics)
 			{
-				aGraphics.setColor(aImage instanceof TextSlice ? new Color(240,240,240) : Color.WHITE);
+				aGraphics.setColor(aImage instanceof TextSlice ? ((TextSlice)aImage).getBackground() : Color.WHITE);
 				aGraphics.fillRect(0, 0, getWidth(), getHeight());
 				aGraphics.drawImage(aImage, (getWidth() - aImage.getWidth()) / 2, (getHeight() - aImage.getHeight()) / 2, null);
 			}
@@ -59,7 +67,7 @@ public class VerticalImageFrame
 			@Override
 			public Dimension getPreferredSize()
 			{
-				return new Dimension(aImage.getWidth(), aImage.getHeight() + 10);
+				return new Dimension(aImage.getWidth(), aImage.getHeight() + mMargin);
 			}
 		});
 
