@@ -41,7 +41,7 @@ public class HorizontalLayout extends NodeLayout
 			{
 				n.mLayout = new HorizontalLayout();
 				n.mLayout.layout(n);
-				w += Math.max(measure(n.mLabel).x, n.mLayout.mBounds.width) + CHILD_SPACING;
+				w += Math.max(measure(n.mLabel).width, n.mLayout.mBounds.width) + CHILD_SPACING;
 				h = Math.max(n.mLayout.mBounds.height, h);
 			}
 
