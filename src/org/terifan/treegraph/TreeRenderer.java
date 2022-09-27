@@ -4,20 +4,22 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineMetrics;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import static org.terifan.treegraph.TreeRenderer.FONT;
 import static org.terifan.treegraph.TreeRenderer.FRC;
 
 
-public class TreeRenderer
+public class TreeRenderer extends JComponent
 {
 	final static BasicStroke LINE_STROKE = new BasicStroke(2.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[]
 	{
@@ -38,9 +40,11 @@ public class TreeRenderer
 	private final Node mRoot;
 
 
-	public TreeRenderer(String aInput) throws IOException
+	public TreeRenderer(NodeLayout aNodeLayout, String aInput) throws IOException
 	{
 		mRoot = parse(new PushbackReader(new StringReader(aInput)));
+		mRoot.mLayout = aNodeLayout;
+		mRoot.mLayout.layout(mRoot);
 	}
 
 
@@ -150,31 +154,30 @@ public class TreeRenderer
 	}
 
 
-	public BufferedImage render(NodeLayout aLayout)
+	@Override
+	protected void paintComponent(Graphics aGraphics)
 	{
-		Node node = mRoot;
+		Dimension d = mRoot.mLayout.mBounds;
 
-		if (node.mLayout != aLayout)
-		{
-			node.mLayout = aLayout;
-			aLayout.layout(node);
-		}
-
-		Dimension d = node.mLayout.mBounds;
-
-		BufferedImage image = new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_RGB);
-
-		Graphics2D g = image.createGraphics();
+		Graphics2D g = (Graphics2D)aGraphics;
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
 		g.setFont(FONT);
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, image.getWidth(), image.getHeight());
+		g.fillRect(0, 0, d.width + 10, d.height + 10);
 
-		aLayout.render(node, g, 0, 0);
+		mRoot.mLayout.render(mRoot, g, 5, 5);
 
 		g.dispose();
+	}
 
-		return image;
+
+	@Override
+	public Dimension getPreferredSize()
+	{
+		Dimension d = mRoot.mLayout.mBounds.getSize();
+		d.width += 10;
+		d.height += 10;
+		return d;
 	}
 }

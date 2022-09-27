@@ -1,10 +1,8 @@
 package org.terifan.treegraph.util;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,29 +12,25 @@ public class VerticalImageFrame
 {
 	private JFrame mFrame;
 	private JPanel mContainer;
-	private int mMargin;
 
 
 	public VerticalImageFrame()
 	{
 		mContainer = new JPanel(new VerticalFlowLayout());
+		mContainer.setBackground(new Color(240,240,240));
+		mContainer.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, Color.GRAY));
+
 		JScrollPane scrollPane = new JScrollPane(mContainer);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(100);
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(100);
 
 		mFrame = new JFrame();
+		mFrame.setBackground(Color.GREEN);
 		mFrame.add(scrollPane);
 		mFrame.setSize(1600, 1400);
 		mFrame.setLocationRelativeTo(null);
 		mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mFrame.setVisible(true);
-	}
-
-
-	public VerticalImageFrame setMargin(int aMargin)
-	{
-		mMargin = aMargin;
-		return this;
 	}
 
 
@@ -46,31 +40,9 @@ public class VerticalImageFrame
 	}
 
 
-	public void add(BufferedImage aImage)
+	public void add(JComponent aComponent)
 	{
-		mContainer.add(new JPanel()
-		{
-			{
-				setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-			}
-
-
-			@Override
-			protected void paintComponent(Graphics aGraphics)
-			{
-				aGraphics.setColor(aImage instanceof TextSlice ? ((TextSlice)aImage).getBackground() : Color.WHITE);
-				aGraphics.fillRect(0, 0, getWidth(), getHeight());
-				aGraphics.drawImage(aImage, (getWidth() - aImage.getWidth()) / 2, (getHeight() - aImage.getHeight()) / 2, null);
-			}
-
-
-			@Override
-			public Dimension getPreferredSize()
-			{
-				return new Dimension(aImage.getWidth(), aImage.getHeight() + mMargin);
-			}
-		});
-
+		mContainer.add(aComponent);
 		mContainer.revalidate();
 		mContainer.invalidate();
 		mContainer.validate();

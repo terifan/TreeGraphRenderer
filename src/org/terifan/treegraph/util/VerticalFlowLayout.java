@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import javax.swing.JComponent;
 
 
 public class VerticalFlowLayout implements LayoutManager
@@ -57,16 +58,17 @@ public class VerticalFlowLayout implements LayoutManager
 			int y = 0;
 			for (int i = 0; i < n; i++)
 			{
-				Dimension d = parent.getComponent(i).getPreferredSize();
+				JComponent c = (JComponent)parent.getComponent(i);
+				Dimension d = c.getPreferredSize();
 				y += d.height + vgap;
 			}
 			y = insets.top;
 			for (int i = 0; i < n; i++)
 			{
-				Component c = parent.getComponent(i);
+				JComponent c = (JComponent)parent.getComponent(i);
 				Dimension d = c.getPreferredSize();
-				int x = insets.left;
 				int wid = pd.width - insets.left - insets.right;
+				int x = c instanceof TextSlice ? 0 : insets.left+pd.width/2-d.width/2;
 				c.setBounds(x, y, wid, d.height);
 				y += d.height + vgap;
 			}
