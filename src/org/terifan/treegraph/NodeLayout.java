@@ -5,12 +5,12 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
-import static org.terifan.treegraph.TreeRenderer.FONT;
-import static org.terifan.treegraph.TreeRenderer.FRC;
-import static org.terifan.treegraph.TreeRenderer.LABEL_HEIGHT;
-import static org.terifan.treegraph.TreeRenderer.LM;
-import static org.terifan.treegraph.TreeRenderer.TEXT_PADDING_X;
-import static org.terifan.treegraph.TreeRenderer.TEXT_PADDING_Y;
+import static org.terifan.treegraph.TreeGraph.FONT;
+import static org.terifan.treegraph.TreeGraph.FRC;
+import static org.terifan.treegraph.TreeGraph.LABEL_HEIGHT;
+import static org.terifan.treegraph.TreeGraph.LM;
+import static org.terifan.treegraph.TreeGraph.TEXT_PADDING_X;
+import static org.terifan.treegraph.TreeGraph.TEXT_PADDING_Y;
 
 
 public abstract class NodeLayout

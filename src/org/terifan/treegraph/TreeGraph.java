@@ -13,13 +13,12 @@ import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import static org.terifan.treegraph.TreeRenderer.FONT;
-import static org.terifan.treegraph.TreeRenderer.FRC;
+import static org.terifan.treegraph.TreeGraph.FONT;
+import static org.terifan.treegraph.TreeGraph.FRC;
 
 
-public class TreeRenderer extends JComponent
+public class TreeGraph extends JComponent
 {
 	final static BasicStroke LINE_STROKE = new BasicStroke(2.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[]
 	{
@@ -30,21 +29,27 @@ public class TreeRenderer extends JComponent
 	final static LineMetrics LM = FONT.getLineMetrics("Adgjy", FRC);
 	final static int SIBLING_SPACING = 50;
 	final static int CHILD_SPACING = 10;
-	final static int TEXT_PADDING_X = 4+0*15;
-	final static int TEXT_PADDING_Y = 4+0*11;
+	final static int TEXT_PADDING_X = 4 + 0 * 15;
+	final static int TEXT_PADDING_Y = 4 + 0 * 11;
 	final static int FRAME_PADDING = 20;
 	final static boolean COMPACT_LEAFS = true;
 	final static int LABEL_HEIGHT = 15;
 
+	private Node mRoot;
 
-	private final Node mRoot;
 
-
-	public TreeRenderer(NodeLayout aNodeLayout, String aInput) throws IOException
+	public TreeGraph(NodeLayout aNodeLayout, String aInput)
 	{
-		mRoot = parse(new PushbackReader(new StringReader(aInput)));
-		mRoot.mLayout = aNodeLayout;
-		mRoot.mLayout.layout(mRoot);
+		try
+		{
+			mRoot = parse(new PushbackReader(new StringReader(aInput)));
+			mRoot.mLayout = aNodeLayout;
+			mRoot.mLayout.layout(mRoot);
+		}
+		catch (IOException e)
+		{
+			throw new IllegalStateException(e);
+		}
 	}
 
 
@@ -58,7 +63,10 @@ public class TreeRenderer extends JComponent
 			for (;;)
 			{
 				c = aInput.read();
-				if (c == '}') break;
+				if (c == '}')
+				{
+					break;
+				}
 				label += (char)c;
 			}
 			c = aInput.read();
@@ -102,7 +110,7 @@ public class TreeRenderer extends JComponent
 
 			readColors(aInput, node);
 
-			node.mText = keys.toArray(new String[0]);
+			node.mText = keys.toArray(String[]::new);
 		}
 
 		return node;
@@ -148,7 +156,18 @@ public class TreeRenderer extends JComponent
 		StringBuilder s = new StringBuilder();
 		for (int c; (c = aInput.read()) != '\'';)
 		{
-			s.append((char)c);
+			if (c == '\\')
+			{
+				c = aInput.read();
+			}
+			if (c < ' ')
+			{
+				s.append("0x" + String.format("%02x", c));
+			}
+			else
+			{
+				s.append((char)c);
+			}
 		}
 		return s.toString();
 	}

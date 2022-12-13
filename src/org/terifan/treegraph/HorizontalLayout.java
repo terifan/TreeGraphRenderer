@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
-import static org.terifan.treegraph.TreeRenderer.CHILD_SPACING;
-import static org.terifan.treegraph.TreeRenderer.COMPACT_LEAFS;
-import static org.terifan.treegraph.TreeRenderer.FONT;
-import static org.terifan.treegraph.TreeRenderer.FRC;
-import static org.terifan.treegraph.TreeRenderer.LINE_STROKE;
-import static org.terifan.treegraph.TreeRenderer.SIBLING_SPACING;
-import static org.terifan.treegraph.TreeRenderer.TEXT_PADDING_X;
+import static org.terifan.treegraph.TreeGraph.CHILD_SPACING;
+import static org.terifan.treegraph.TreeGraph.COMPACT_LEAFS;
+import static org.terifan.treegraph.TreeGraph.FONT;
+import static org.terifan.treegraph.TreeGraph.FRC;
+import static org.terifan.treegraph.TreeGraph.LINE_STROKE;
+import static org.terifan.treegraph.TreeGraph.SIBLING_SPACING;
+import static org.terifan.treegraph.TreeGraph.TEXT_PADDING_X;
 
 
 public class HorizontalLayout extends NodeLayout
