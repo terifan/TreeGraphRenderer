@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JComponent;
 import static org.terifan.treegraph.TreeGraph.FONT;
 import static org.terifan.treegraph.TreeGraph.FRC;
@@ -42,7 +43,8 @@ public class TreeGraph extends JComponent
 	{
 		try
 		{
-			mRoot = parse(new PushbackReader(new StringReader(aInput)));
+			mRoot = new JSONDecoder().unmarshal(new StringReader(aInput));
+			System.out.println(mRoot);
 			mRoot.mLayout = aNodeLayout;
 			mRoot.mLayout.layout(mRoot);
 		}
@@ -53,124 +55,124 @@ public class TreeGraph extends JComponent
 	}
 
 
-	private Node parse(PushbackReader aInput) throws IOException
-	{
-		Node node;
-		int c = aInput.read();
-		String label = "";
-		if (c == '{')
-		{
-			for (;;)
-			{
-				c = aInput.read();
-				if (c == '}')
-				{
-					break;
-				}
-				label += (char)c;
-			}
-			c = aInput.read();
-		}
-		if (c == '\'')
-		{
-			node = new Node(readWord(aInput).split(":"));
-			node.mLabel = label;
-
-			readColors(aInput, node);
-
-			c = aInput.read();
-			if (c == '[')
-			{
-				do
-				{
-					node.add(parse(aInput));
-				}
-				while (aInput.read() == ',');
-			}
-			else
-			{
-				aInput.unread(c);
-			}
-		}
-		else
-		{
-			node = new Node();
-			node.mLabel = label;
-
-			ArrayList<String> keys = new ArrayList<>();
-			do
-			{
-				if (aInput.read() != '\'')
-				{
-					break;
-				}
-				keys.add(readWord(aInput));
-			}
-			while (aInput.read() == ',');
-
-			readColors(aInput, node);
-
-			node.mText = keys.toArray(String[]::new);
-		}
-
-		return node;
-	}
-
-
-	private void readColors(PushbackReader aInput, Node aNode) throws IOException, NumberFormatException
-	{
-		for (int i = 0; i < 3; i++)
-		{
-			int c = aInput.read();
-			if (c == '#')
-			{
-				aNode.mColors[i] = readColor(aInput);
-			}
-			else
-			{
-				aInput.unread(c);
-				break;
-			}
-		}
-	}
-
-
-	private Color readColor(PushbackReader aInput) throws IOException, NumberFormatException
-	{
-		int t = aInput.read();
-		if (t == '#')
-		{
-			aInput.unread(t);
-			return null;
-		}
-
-		int r = 16 * Integer.parseInt("" + (char)t, 16);
-		int g = 16 * Integer.parseInt("" + (char)aInput.read(), 16);
-		int b = 16 * Integer.parseInt("" + (char)aInput.read(), 16);
-		return new Color(r, g, b);
-	}
-
-
-	private String readWord(PushbackReader aInput) throws IOException
-	{
-		StringBuilder s = new StringBuilder();
-		for (int c; (c = aInput.read()) != '\'';)
-		{
-			if (c == '\\')
-			{
-				c = aInput.read();
-			}
-			if (c < ' ')
-			{
-				s.append("0x" + String.format("%02x", c));
-			}
-			else
-			{
-				s.append((char)c);
-			}
-		}
-		return s.toString();
-	}
+//	private Node parse(PushbackReader aInput) throws IOException
+//	{
+//		Node node;
+//		int c = aInput.read();
+//		String label = "";
+//		if (c == '{')
+//		{
+//			for (;;)
+//			{
+//				c = aInput.read();
+//				if (c == '}')
+//				{
+//					break;
+//				}
+//				label += (char)c;
+//			}
+//			c = aInput.read();
+//		}
+//		if (c == '\'')
+//		{
+//			node = new Node(readWord(aInput).split(":"));
+//			node.mLabel = label;
+//
+//			readColors(aInput, node);
+//
+//			c = aInput.read();
+//			if (c == '[')
+//			{
+//				do
+//				{
+//					node.add(parse(aInput));
+//				}
+//				while (aInput.read() == ',');
+//			}
+//			else
+//			{
+//				aInput.unread(c);
+//			}
+//		}
+//		else
+//		{
+//			node = new Node();
+//			node.mLabel = label;
+//
+//			ArrayList<String> keys = new ArrayList<>();
+//			do
+//			{
+//				if (aInput.read() != '\'')
+//				{
+//					break;
+//				}
+//				keys.add(readWord(aInput));
+//			}
+//			while (aInput.read() == ',');
+//
+//			readColors(aInput, node);
+//
+//			node.mText = keys.toArray(String[]::new);
+//		}
+//
+//		return node;
+//	}
+//
+//
+//	private void readColors(PushbackReader aInput, Node aNode) throws IOException, NumberFormatException
+//	{
+//		for (int i = 0; i < 3; i++)
+//		{
+//			int c = aInput.read();
+//			if (c == '#')
+//			{
+//				aNode.mColors[i] = readColor(aInput);
+//			}
+//			else
+//			{
+//				aInput.unread(c);
+//				break;
+//			}
+//		}
+//	}
+//
+//
+//	private Color readColor(PushbackReader aInput) throws IOException, NumberFormatException
+//	{
+//		int t = aInput.read();
+//		if (t == '#')
+//		{
+//			aInput.unread(t);
+//			return null;
+//		}
+//
+//		int r = 16 * Integer.parseInt("" + (char)t, 16);
+//		int g = 16 * Integer.parseInt("" + (char)aInput.read(), 16);
+//		int b = 16 * Integer.parseInt("" + (char)aInput.read(), 16);
+//		return new Color(r, g, b);
+//	}
+//
+//
+//	private String readWord(PushbackReader aInput) throws IOException
+//	{
+//		StringBuilder s = new StringBuilder();
+//		for (int c; (c = aInput.read()) != '\'';)
+//		{
+//			if (c == '\\')
+//			{
+//				c = aInput.read();
+//			}
+//			if (c < ' ')
+//			{
+//				s.append("0x" + String.format("%02x", c));
+//			}
+//			else
+//			{
+//				s.append((char)c);
+//			}
+//		}
+//		return s.toString();
+//	}
 
 
 	@Override

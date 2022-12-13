@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 
 
 class JSONDecoder
@@ -14,7 +11,7 @@ class JSONDecoder
 	private PushbackReader mReader;
 
 
-	public Object unmarshal(Reader aReader) throws IOException
+	public Node unmarshal(Reader aReader) throws IOException
 	{
 		mReader = new PushbackReader(aReader, 1);
 
@@ -30,9 +27,10 @@ class JSONDecoder
 	}
 
 
-	private HashMap readBundle() throws IOException
+	private Node readBundle() throws IOException
 	{
-		HashMap bundle = new HashMap();
+		Node<String> node = new Node<>();
+		node.array = false;
 
 		for (;;)
 		{
@@ -42,7 +40,7 @@ class JSONDecoder
 			{
 				break;
 			}
-			if (bundle.size() > 0)
+			if (node.size() > 0)
 			{
 				if (c != ',')
 				{
@@ -68,18 +66,19 @@ class JSONDecoder
 				throw new IOException("Expected colon sign after key: " + key);
 			}
 
-			bundle.put(key, readValue(readChar()));
+			node.put(key, readValue(readChar()));
 		}
 
-		return bundle;
+		return node;
 	}
 
 
-	private Collection readArray() throws IOException
+	private Node readArray() throws IOException
 	{
-		ArrayList array = new ArrayList();
+		Node<Integer> node = new Node<>();
+		node.array = true;
 
-		for (;;)
+		for (int i = 0;; i++)
 		{
 			char c = readChar();
 
@@ -92,7 +91,7 @@ class JSONDecoder
 				throw new IOException("Found colon after element in array");
 			}
 
-			if (array.size() > 0)
+			if (node.size() > 0)
 			{
 				if (c != ',')
 				{
@@ -102,10 +101,10 @@ class JSONDecoder
 				c = readChar();
 			}
 
-			array.add(readValue(c));
+			node.put(i, readValue(c));
 		}
 
-		return array;
+		return node;
 	}
 
 

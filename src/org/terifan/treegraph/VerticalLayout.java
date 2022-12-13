@@ -19,7 +19,7 @@ public class VerticalLayout extends NodeLayout
 	@Override
 	public void layout(Node aNode)
 	{
-		if (aNode.mChildren == null)
+		if (!aNode.isEmpty())
 		{
 			if (COMPACT_LEAFS)
 			{
@@ -38,13 +38,17 @@ public class VerticalLayout extends NodeLayout
 
 			int w = 0;
 			int h = -CHILD_SPACING;
-			for (Node n : aNode.mChildren)
+			for (Object n : aNode.values())
 			{
-				n.mLayout = new VerticalLayout();
-				n.mLayout.layout(n);
-				w = Math.max(n.mLayout.mBounds.width, w);
-				w = Math.max(measure(n.mLabel).width, w);
-				h += n.mLayout.mBounds.height + CHILD_SPACING;
+				if (n instanceof Node)
+				{
+					Node _n = (Node)n;
+					_n.mLayout = new VerticalLayout();
+					_n.mLayout.layout(_n);
+					w = Math.max(_n.mLayout.mBounds.width, w);
+					w = Math.max(measure(_n.mLabel).width, w);
+					h += _n.mLayout.mBounds.height + CHILD_SPACING;
+				}
 			}
 //				w = Math.max(measure(aNode.mLabel).x, w);
 
@@ -58,15 +62,15 @@ public class VerticalLayout extends NodeLayout
 	{
 		int y = aY + (mBounds.height - mHeight) / 2;
 
-		if (aNode.mChildren != null)
+		if (!aNode.isEmpty())
 		{
 			renderVerticalBox(aGraphics, aX, y, aNode);
 
 			Stroke oldStroke = aGraphics.getStroke();
 
-			boolean b = aNode.mText.length == aNode.mChildren.size();
+			boolean b = aNode.size() == aNode.size();
 			int t = b ? y + (mHeight - mTextHeight) / 2 : y;
-			int s = mHeight / aNode.mChildren.size();
+			int s = mHeight / aNode.size();
 			int h = s;
 			int ch = -CHILD_SPACING;
 
@@ -75,32 +79,41 @@ public class VerticalLayout extends NodeLayout
 				t += LABEL_HEIGHT / 2;
 			}
 
-			for (int i = 0; i < aNode.mChildren.size(); i++)
+			for (int i = 0; i < aNode.size(); i++)
 			{
-				ch += aNode.mChildren.get(i).mLayout.mBounds.height + CHILD_SPACING;
+				Object n = aNode.value(i);
+				if (n instanceof Node)
+				{
+					Node _n = (Node)n;
+					ch += _n.mLayout.mBounds.height + CHILD_SPACING;
+				}
 			}
 			if (ch < mHeight)
 			{
 				aY += (mHeight - ch) / 2;
 			}
-			for (int i = 0; i < aNode.mChildren.size(); i++)
+			for (int i = 0; i < aNode.size(); i++)
 			{
 				if (b)
 				{
-					h = (int)FONT.getStringBounds(aNode.mText[i], FRC).getHeight();
+					h = (int)FONT.getStringBounds(aNode.key(i), FRC).getHeight();
 					s = h + TEXT_PADDING_Y;
 				}
 
-				Node n = aNode.mChildren.get(i);
-				n.mLayout.render(n, aGraphics, aX + mWidth + SIBLING_SPACING, aY);
+				Object n = aNode.value(i);
+				if (n instanceof Node)
+				{
+					Node _n = (Node)n;
+					_n.mLayout.render(_n, aGraphics, aX + mWidth + SIBLING_SPACING, aY);
 
-				aGraphics.setColor(Color.LIGHT_GRAY);
-				aGraphics.setStroke(LINE_STROKE);
-				aGraphics.drawLine(aX + mWidth + 5, t + h / 2, aX + mWidth + SIBLING_SPACING - 5, aY + n.mLayout.mBounds.height / 2);
-				aGraphics.setStroke(oldStroke);
+					aGraphics.setColor(Color.LIGHT_GRAY);
+					aGraphics.setStroke(LINE_STROKE);
+					aGraphics.drawLine(aX + mWidth + 5, t + h / 2, aX + mWidth + SIBLING_SPACING - 5, aY + _n.mLayout.mBounds.height / 2);
+					aGraphics.setStroke(oldStroke);
 
-				aY += n.mLayout.mBounds.height + CHILD_SPACING;
-				t += s;
+					aY += _n.mLayout.mBounds.height + CHILD_SPACING;
+					t += s;
+				}
 			}
 		}
 		else if (COMPACT_LEAFS)

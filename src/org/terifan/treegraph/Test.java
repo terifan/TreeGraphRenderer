@@ -18,10 +18,14 @@ public class Test
 //			frame.add(new TreeGraph(new HorizontalLayout(), "['a','b','c','d']#f00"));
 //			frame.add(new TreeGraph(new HorizontalLayout(), "'x'['a','b','c','d']"));
 //			frame.add(new TreeGraph(new HorizontalLayout(), "'x:y'[['a','b','c','d'],['a','b','c','d']]"));
-			frame.add(new TreeGraph(new HorizontalLayout(), "{'x':['a','b','c','d'],'y':['a','b','c','d']}"));
+//			frame.add(new TreeGraph(new HorizontalLayout(), "{'x':['a','b','c','d'],'y':['a','b','c','d']}"));
 
-			Object x = new JSONDecoder().unmarshal(new StringReader("{'x':['a','b','c','d'],'y':['a','b','c','d']}"));
-			System.out.println(x);
+			frame.add(new TreeGraph(new HorizontalLayout(),
+				  "{"
+				+ "'*':['Apple','Banana','Circus','Dove','Ear','Female'],"
+				+ "'Jalapeno':['Gloves','Head','Internal','Japanese','Knife','Leap'],"
+				+ "'Mango':['Mango','Nose',{'a':['b']},'Open','Quality','Rupee']"
+				+ "}"));
 		}
 		catch (Throwable e)
 		{

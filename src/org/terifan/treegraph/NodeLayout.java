@@ -41,29 +41,33 @@ public abstract class NodeLayout
 			aGraphics.drawString(aNode.mLabel, aX + (aNode.mLayout.mWidth - measure(aNode.mLabel).width) / 2, aY - 5);
 		}
 
-		aGraphics.setColor(aNode.mColors[1] != null ? aNode.mColors[1] : Color.WHITE);
+//		aGraphics.setColor(aNode.mColors[1] != null ? aNode.mColors[1] : Color.WHITE);
+		aGraphics.setColor(Color.WHITE);
 		aGraphics.fillRect(aX, aY, aNode.mLayout.mWidth - 1, h - 1);
 
-		aGraphics.setColor(aNode.mColors[0] != null ? aNode.mColors[0] : Color.BLACK);
+//		aGraphics.setColor(aNode.mColors[0] != null ? aNode.mColors[0] : Color.BLACK);
+		aGraphics.setColor(Color.BLACK);
 		aGraphics.drawRect(aX, aY, aNode.mLayout.mWidth - 1, h - 1);
 
-		for (int i = 0, tx = aX + (aNode.mLayout.mWidth - aNode.mLayout.mTextWidth) / 2; i < aNode.mText.length; i++)
+		for (int i = 0, tx = aX + (aNode.mLayout.mWidth - aNode.mLayout.mTextWidth) / 2; i < aNode.size(); i++)
 		{
-			aGraphics.setColor(aNode.mColors[2] != null ? aNode.mColors[2] : Color.BLACK);
-			if (aNode.mText[i].equals("*"))
+//			aGraphics.setColor(aNode.mColors[2] != null ? aNode.mColors[2] : Color.BLACK);
+			aGraphics.setColor(Color.BLACK);
+			String text = aNode.key(i);
+			if (text.equals("*"))
 			{
 				aGraphics.fillOval(tx, aY + h / 2 - 2, 5, 5);
 			}
 			else
 			{
-				aGraphics.drawString(aNode.mText[i], tx, aY + (h + LM.getHeight()) / 2 - aGraphics.getFontMetrics().getDescent());
+				aGraphics.drawString(text, tx, aY + (h + LM.getHeight()) / 2 - aGraphics.getFontMetrics().getDescent());
 			}
 			if (i > 0)
 			{
 				aGraphics.setColor(Color.LIGHT_GRAY);
 				aGraphics.drawLine(tx - TEXT_PADDING_X / 2, aY + 1, tx - TEXT_PADDING_X / 2, aY + h - 2);
 			}
-			tx += measure(aNode.mText[i]).width + TEXT_PADDING_X;
+			tx += measure(text).width + TEXT_PADDING_X;
 		}
 	}
 
@@ -81,22 +85,25 @@ public abstract class NodeLayout
 			aGraphics.drawString(aNode.mLabel, aX + (aNode.mLayout.mWidth - measure(aNode.mLabel).width) / 2, aY - 5);
 		}
 
-		aGraphics.setColor(aNode.mColors[1] != null ? aNode.mColors[1] : Color.WHITE);
+//		aGraphics.setColor(aNode.mColors[1] != null ? aNode.mColors[1] : Color.WHITE);
+		aGraphics.setColor(Color.WHITE);
 		aGraphics.fillRect(aX, aY, aNode.mLayout.mWidth - 1, h - 1);
 
-		aGraphics.setColor(aNode.mColors[0] != null ? aNode.mColors[0] : Color.BLACK);
+//		aGraphics.setColor(aNode.mColors[0] != null ? aNode.mColors[0] : Color.BLACK);
+		aGraphics.setColor(Color.BLACK);
 		aGraphics.drawRect(aX, aY, aNode.mLayout.mWidth - 1, h - 1);
 
-		for (int i = 0, ty = aY + (h - aNode.mLayout.mTextHeight) / 2; i < aNode.mText.length; i++)
+		for (int i = 0, ty = aY + (h - aNode.mLayout.mTextHeight) / 2; i < aNode.size(); i++)
 		{
-			aGraphics.setColor(aNode.mColors[2] != null ? aNode.mColors[2] : Color.BLACK);
-			if (aNode.mText[i].equals("*"))
+//			aGraphics.setColor(aNode.mColors[2] != null ? aNode.mColors[2] : Color.BLACK);
+			String text = aNode.key(i);
+			if (text.equals("*"))
 			{
 				aGraphics.fillOval(aX + aNode.mLayout.mWidth / 2 - 2, ty + (int)LM.getHeight() / 2 - 2, 5, 5);
 			}
 			else
 			{
-				aGraphics.drawString(aNode.mText[i], aX + (aNode.mLayout.mWidth - aGraphics.getFontMetrics().stringWidth(aNode.mText[i])) / 2, ty + LM.getHeight() - aGraphics.getFontMetrics().getDescent());
+				aGraphics.drawString(text, aX + (aNode.mLayout.mWidth - aGraphics.getFontMetrics().stringWidth(text)) / 2, ty + LM.getHeight() - aGraphics.getFontMetrics().getDescent());
 			}
 			if (i > 0)
 			{
@@ -112,9 +119,9 @@ public abstract class NodeLayout
 	{
 		aNode.mLayout.mTextWidth = -TEXT_PADDING_X;
 		aNode.mLayout.mTextHeight = 0;
-		for (String s : aNode.mText)
+		for (int i = 0; i < aNode.size(); i++)
 		{
-			Dimension b = measure(s);
+			Dimension b = measure(aNode.key(i));
 			aNode.mLayout.mTextWidth += b.width + TEXT_PADDING_X;
 			aNode.mLayout.mTextHeight = Math.max(b.height, aNode.mLayout.mTextHeight);
 		}
@@ -134,9 +141,9 @@ public abstract class NodeLayout
 	{
 		aNode.mLayout.mTextWidth = 0;
 		aNode.mLayout.mTextHeight = -TEXT_PADDING_Y;
-		for (String s : aNode.mText)
+		for (int i = 0; i < aNode.size(); i++)
 		{
-			Dimension b = measure(s);
+			Dimension b = measure(aNode.key(i));
 			aNode.mLayout.mTextWidth = Math.max(b.width, aNode.mLayout.mTextWidth);
 			aNode.mLayout.mTextHeight += b.height + TEXT_PADDING_Y;
 		}
@@ -152,13 +159,13 @@ public abstract class NodeLayout
 	}
 
 
-	static Dimension measure(String s)
+	static Dimension measure(Object s)
 	{
-		if (s == null || s.isEmpty())
+		if (s == null || s.toString().isEmpty())
 		{
 			return new Dimension();
 		}
-		Rectangle2D r = FONT.getStringBounds(s, FRC);
+		Rectangle2D r = FONT.getStringBounds(s.toString(), FRC);
 		return new Dimension((int)r.getWidth(), (int)r.getHeight());
 	}
 }
