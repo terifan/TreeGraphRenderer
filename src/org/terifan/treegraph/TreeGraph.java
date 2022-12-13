@@ -29,11 +29,12 @@ public class TreeGraph extends JComponent
 	final static LineMetrics LM = FONT.getLineMetrics("Adgjy", FRC);
 	final static int SIBLING_SPACING = 50;
 	final static int CHILD_SPACING = 10;
-	final static int TEXT_PADDING_X = 4 + 0 * 15;
-	final static int TEXT_PADDING_Y = 4 + 0 * 11;
+	final static int TEXT_PADDING_X = 4+0*15;
+	final static int TEXT_PADDING_Y = 4+0*11;
 	final static int FRAME_PADDING = 20;
 	final static boolean COMPACT_LEAFS = true;
 	final static int LABEL_HEIGHT = 15;
+
 
 	private Node mRoot;
 
@@ -46,7 +47,7 @@ public class TreeGraph extends JComponent
 			mRoot.mLayout = aNodeLayout;
 			mRoot.mLayout.layout(mRoot);
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			throw new IllegalStateException(e);
 		}
@@ -63,10 +64,7 @@ public class TreeGraph extends JComponent
 			for (;;)
 			{
 				c = aInput.read();
-				if (c == '}')
-				{
-					break;
-				}
+				if (c == '}') break;
 				label += (char)c;
 			}
 			c = aInput.read();
@@ -156,18 +154,7 @@ public class TreeGraph extends JComponent
 		StringBuilder s = new StringBuilder();
 		for (int c; (c = aInput.read()) != '\'';)
 		{
-			if (c == '\\')
-			{
-				c = aInput.read();
-			}
-			if (c < ' ')
-			{
-				s.append("0x" + String.format("%02x", c));
-			}
-			else
-			{
-				s.append((char)c);
-			}
+			s.append((char)c);
 		}
 		return s.toString();
 	}

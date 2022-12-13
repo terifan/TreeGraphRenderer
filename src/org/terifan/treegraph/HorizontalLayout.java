@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import static org.terifan.treegraph.NodeLayout.measure;
 import static org.terifan.treegraph.TreeGraph.CHILD_SPACING;
 import static org.terifan.treegraph.TreeGraph.COMPACT_LEAFS;
 import static org.terifan.treegraph.TreeGraph.FONT;
