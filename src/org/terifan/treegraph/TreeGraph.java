@@ -108,7 +108,7 @@ public class TreeGraph extends JComponent
 
 			readColors(aInput, node);
 
-			node.mText = keys.toArray(String[]::new);
+			node.mText = keys.toArray(new String[0]);
 		}
 
 		return node;
