@@ -38,7 +38,7 @@ public abstract class NodeLayout
 			h -= LABEL_HEIGHT;
 
 			aGraphics.setColor(Color.BLACK);
-			aGraphics.drawString(aNode.mLabel, aX + (aNode.mLayout.mWidth - measure(aNode.mLabel).width) / 2, aY - 5);
+			aGraphics.drawString(aNode.mLabel, aX + 0*(aNode.mLayout.mWidth - measure(aNode.mLabel).width) / 2, aY - 5);
 		}
 
 		aGraphics.setColor(aNode.mColors[1] != null ? aNode.mColors[1] : Color.WHITE);
@@ -78,7 +78,7 @@ public abstract class NodeLayout
 			h -= LABEL_HEIGHT;
 
 			aGraphics.setColor(Color.BLACK);
-			aGraphics.drawString(aNode.mLabel, aX + (aNode.mLayout.mWidth - measure(aNode.mLabel).width) / 2, aY - 5);
+			aGraphics.drawString(aNode.mLabel, aX + 0*(aNode.mLayout.mWidth - measure(aNode.mLabel).width) / 2, aY - 5);
 		}
 
 		aGraphics.setColor(aNode.mColors[1] != null ? aNode.mColors[1] : Color.WHITE);
@@ -96,7 +96,7 @@ public abstract class NodeLayout
 			}
 			else
 			{
-				aGraphics.drawString(aNode.mText[i], aX + (aNode.mLayout.mWidth - aGraphics.getFontMetrics().stringWidth(aNode.mText[i])) / 2, ty + LM.getHeight() - aGraphics.getFontMetrics().getDescent());
+				aGraphics.drawString(aNode.mText[i], aX + 0*(aNode.mLayout.mWidth - aGraphics.getFontMetrics().stringWidth(aNode.mText[i])) / 2, ty + LM.getHeight() - aGraphics.getFontMetrics().getDescent());
 			}
 			if (i > 0)
 			{
