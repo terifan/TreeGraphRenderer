@@ -96,7 +96,7 @@ public abstract class NodeLayout
 			}
 			else
 			{
-				aGraphics.drawString(aNode.mText[i], aX + 0*(aNode.mLayout.mWidth - aGraphics.getFontMetrics().stringWidth(aNode.mText[i])) / 2, ty + LM.getHeight() - aGraphics.getFontMetrics().getDescent());
+				aGraphics.drawString(aNode.mText[i], aX + (aNode.mLayout.mWidth - aGraphics.getFontMetrics().stringWidth(aNode.mText[i])) / 2, ty + LM.getHeight() - aGraphics.getFontMetrics().getDescent());
 			}
 			if (i > 0)
 			{

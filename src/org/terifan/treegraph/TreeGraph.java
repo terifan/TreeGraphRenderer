@@ -36,7 +36,7 @@ public class TreeGraph extends JComponent
 	final static int LABEL_HEIGHT = 15;
 
 
-	private Node mRoot;
+	private transient Node mRoot;
 
 
 	public TreeGraph(NodeLayout aNodeLayout, String aInput)
@@ -108,7 +108,7 @@ public class TreeGraph extends JComponent
 
 			readColors(aInput, node);
 
-			node.mText = keys.toArray(new String[0]);
+			node.mText = keys.toArray(String[]::new);
 		}
 
 		return node;
@@ -120,32 +120,26 @@ public class TreeGraph extends JComponent
 		for (int i = 0; i < 3; i++)
 		{
 			int c = aInput.read();
-			if (c == '#')
+			if (c != '#')
 			{
-				aNode.mColors[i] = readColor(aInput);
+				aInput.unread(c);
+				break;
 			}
-			else
+
+			c = aInput.read();
+			if (c >= '0' && c <= '9' || c >= 'A' && c <= 'F' || c >= 'a' && c <= 'f')
+			{
+				int r = 17 * Integer.parseInt("" + (char)c, 16);
+				int g = 17 * Integer.parseInt("" + (char)aInput.read(), 16);
+				int b = 17 * Integer.parseInt("" + (char)aInput.read(), 16);
+				aNode.mColors[i] = new Color(r, g, b);
+			}
+			else if (c != '#')
 			{
 				aInput.unread(c);
 				break;
 			}
 		}
-	}
-
-
-	private Color readColor(PushbackReader aInput) throws IOException, NumberFormatException
-	{
-		int t = aInput.read();
-		if (t == '#')
-		{
-			aInput.unread(t);
-			return null;
-		}
-
-		int r = 16 * Integer.parseInt("" + (char)t, 16);
-		int g = 16 * Integer.parseInt("" + (char)aInput.read(), 16);
-		int b = 16 * Integer.parseInt("" + (char)aInput.read(), 16);
-		return new Color(r, g, b);
 	}
 
 
